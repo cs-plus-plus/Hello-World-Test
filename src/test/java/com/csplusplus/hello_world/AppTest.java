@@ -1,26 +1,28 @@
 package com.csplusplus.hello_world;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AppTest {
+class AppTest {
 
     @Test
-    public void testMainPrintsHelloWorld() {
+    void testMainPrintsHelloWorld() {
         // Capture System.out
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        // Run main method
-        App.main(new String[]{});
-
-        // Restore System.out
-        System.setOut(originalOut);
+        try {
+            // Run main method
+            App.main(new String[]{});
+        } finally {
+            // Always restore System.out
+            System.setOut(originalOut);
+        }
 
         // Verify output
         String output = outputStream.toString().trim();
